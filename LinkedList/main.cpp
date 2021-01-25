@@ -20,12 +20,11 @@ public:
     public:
         LinkedListNode *node;
 
-        iterator() : node(nullptr) {}
-        iterator(LinkedListNode* node) : node(node) {}
+        explicit iterator(LinkedListNode* node = nullptr) : node(node) {}
 
-        int operator*() { return node->data; }
+        int operator*() const { return node->data; }
         iterator& operator++() { node = node->next; return *this; }
-        bool operator!=(iterator it) { return this->node != it.node; }
+        bool operator!=(iterator it) const { return this->node != it.node; }
     };
 
     LinkedList() : start(nullptr) {
@@ -36,7 +35,7 @@ public:
     iterator end() { return iterator(nullptr); }
 
     void Add(int data) {
-        LinkedListNode* newNode = new LinkedListNode();
+        auto* newNode = new LinkedListNode();
         newNode->data = data;
 
         if (start == nullptr) {
