@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -15,9 +16,24 @@ private:
     LinkedListNode* start;
 
 public:
+    class iterator {
+    public:
+        LinkedListNode *node;
+
+        iterator() : node(nullptr) {}
+        iterator(LinkedListNode* node) : node(node) {}
+
+        int operator*() { return node->data; }
+        iterator& operator++() { node = node->next; return *this; }
+        bool operator!=(iterator it) { return this->node != it.node; }
+    };
+
     LinkedList() : start(nullptr) {
 
     }
+
+    iterator begin() { return iterator(start); }
+    iterator end() { return iterator(nullptr); }
 
     void Add(int data) {
         LinkedListNode* newNode = new LinkedListNode();
@@ -72,6 +88,24 @@ int main() {
     cout << "Test 1" << endl;
     cout << "------" << endl;
     cout << list << endl;
+
+    // using new iterator, similar to STL classes
+    for( LinkedList::iterator i = list.begin(); i != list.end(); ++i ) {
+        cout << *i << " ";
+    }
+    cout << endl;
+
+    // from STL <algorithm> using lambda function
+    for_each( list.begin(), list.end(), [](int n) {
+        cout << n << " ";
+    });
+    cout << endl;
+
+    // C++11
+    for (int n: list) {
+        cout << n << " ";
+    }
+    cout << endl;
 
     return 0;
 }
