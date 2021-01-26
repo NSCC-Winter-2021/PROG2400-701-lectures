@@ -18,34 +18,24 @@ private:
 public:
     class iterator {
     public:
-        LinkedListNode* node;
+        LinkedListNode *node;
 
-        iterator() : node(nullptr) {}
-        iterator(LinkedListNode* node) : node(node) {}
-        int operator*() { return node->data; }
-        bool operator!=(iterator it) { return this->node != it.node; }
+        explicit iterator(LinkedListNode* node = nullptr) : node(node) {}
+
+        int operator*() const { return node->data; }
         iterator& operator++() { node = node->next; return *this; }
+        bool operator!=(iterator it) const { return this->node != it.node; }
     };
 
     LinkedList() : start(nullptr) {
 
     }
 
-    virtual ~LinkedList() {
-        LinkedListNode* node = start;
-
-        while (node != nullptr) {
-            LinkedListNode* temp = node;
-            node = node->next;
-            delete temp;
-        }
-    }
-
     iterator begin() { return iterator(start); }
     iterator end() { return iterator(nullptr); }
 
     void Add(int data) {
-        LinkedListNode* newNode = new LinkedListNode();
+        auto* newNode = new LinkedListNode();
         newNode->data = data;
 
         if (start == nullptr) {
@@ -70,70 +60,6 @@ public:
         }
     }
 
-    void Delete(int value) {
-        LinkedListNode* node = start;
-        LinkedListNode* prev = nullptr;
-
-        // find the node to delete
-        while (node != nullptr) {
-            if (node->data == value) {
-                // found the node, so exit the loop
-                break;
-            }
-            prev = node;
-            node = node->next;
-        }
-
-        // was the node found?
-        if (node != nullptr) {
-            // are we deleting the first node?
-            if (prev == nullptr) {
-                // update start of chain to second node
-                start = node->next;
-            } else {
-                // deleting any other node
-                prev->next = node->next;
-            }
-
-            delete node;
-
-        } else {
-            cout << "Node not found." << endl;
-        }
-    }
-
-    void Insert(int data, int before) {
-        LinkedListNode* newNode = new LinkedListNode();
-        newNode->data = data;
-
-        LinkedListNode* node = start;
-        LinkedListNode* prev = nullptr;
-
-        // find node to insert before
-        while (node != nullptr) {
-            if (node->data == before) {
-                // found node, so exit loop
-                break;
-            }
-            prev = node;
-            node = node->next;
-        }
-
-        // did we find the node?
-        if (node != nullptr) {
-            // are we inserting before the first node?
-            if (prev == nullptr) {
-                // make the new node the new starting node
-                newNode->next = start;
-                start = newNode;
-            } else {
-                // insert the new node in the chain
-                newNode->next = prev->next;
-                prev->next = newNode;
-            }
-        }
-    }
-
     friend ostream& operator<<(ostream& output, LinkedList& list);
 };
 
@@ -152,7 +78,6 @@ int main() {
 
     LinkedList list;
 
-    // test 1 - adding nodes
     list.Add(1);
     list.Add(2);
     list.Add(3);
@@ -163,38 +88,19 @@ int main() {
     cout << "------" << endl;
     cout << list << endl;
 
-    // test 2 - deleting nodes
-    list.Delete(3); // delete the node with the value 3
-
-    cout << endl;
-    cout << "Test 2" << endl;
-    cout << "------" << endl;
-    cout << list << endl;
-
-    // test 3 - inserting nodes
-    list.Insert(6, 4); // insert the value 6 between 2 and 4
-    list.Insert(0, 1); // insert 0 as the new first node
-
-    cout << endl;
-    cout << "Test 3" << endl;
-    cout << "------" << endl;
-    cout << list << endl;
-
-    // test 4 - using an STL-like iterator
-
-    // using an iterator, similar to STL
-    for (LinkedList::iterator i = list.begin(); i != list.end(); ++i) {
+    // using new iterator, similar to STL classes
+    for( LinkedList::iterator i = list.begin(); i != list.end(); ++i ) {
         cout << *i << " ";
     }
     cout << endl;
 
-    // using STL for_each algorithm
-    for_each(list.begin(), list.end(), [](int n) {
-       cout << n << " ";
+    // from STL <algorithm> using lambda function
+    for_each( list.begin(), list.end(), [](int n) {
+        cout << n << " ";
     });
     cout << endl;
 
-    // using range-based loop
+    // C++11
     for (int n: list) {
         cout << n << " ";
     }
