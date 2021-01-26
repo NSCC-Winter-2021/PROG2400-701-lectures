@@ -8,8 +8,8 @@ int main() {
 
     char input[256];
     char command[32];
-    int start;
-    int end;
+    int start = 9999;
+    int end = 9999;
 
     cout << "Enter a command: ";
     cin.getline(input, 256);
@@ -25,7 +25,14 @@ int main() {
         cout << "You entered a " << command << " command" << endl;
 
         ss >> start;
-        ss >> end;
+
+        if (!ss) {
+            // an error occurred!
+            cout << "invalid entry" << endl;
+            ss.clear();
+        } else {
+            ss >> end;
+        }
 
         cout << "Command: " << command << endl;
         cout << "Start: " << start << endl;
