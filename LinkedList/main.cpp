@@ -13,30 +13,35 @@ public:
 
 class LinkedList {
 private:
+    int length;
     LinkedListNode* start;
 
 public:
     class iterator {
     public:
         LinkedListNode *node;
+        int index;
 
-        explicit iterator(LinkedListNode* node = nullptr) : node(node) {}
+        explicit iterator(LinkedListNode* node = nullptr) : node(node), index(0) {}
 
         int operator*() const { return node->data; }
-        iterator& operator++() { node = node->next; return *this; }
+        iterator& operator++() { node = node->next; index++; return *this; }
         bool operator!=(iterator it) const { return this->node != it.node; }
     };
 
-    LinkedList() : start(nullptr) {
+    LinkedList() : start(nullptr), length(0) {
 
     }
 
     iterator begin() { return iterator(start); }
     iterator end() { return iterator(nullptr); }
+    int count() { return length; }
 
     void Add(int data) {
         auto* newNode = new LinkedListNode();
         newNode->data = data;
+
+        length++;
 
         if (start == nullptr) {
             // start a new chain
@@ -79,10 +84,15 @@ int main() {
     LinkedList list;
 
     list.Add(1);
+    cout << "Count: " << list.count() << endl;
     list.Add(2);
+    cout << "Count: " << list.count() << endl;
     list.Add(3);
+    cout << "Count: " << list.count() << endl;
     list.Add(4);
+    cout << "Count: " << list.count() << endl;
     list.Add(5);
+    cout << "Count: " << list.count() << endl;
 
     cout << "Test 1" << endl;
     cout << "------" << endl;
@@ -90,7 +100,8 @@ int main() {
 
     // using new iterator, similar to STL classes
     for( LinkedList::iterator i = list.begin(); i != list.end(); ++i ) {
-        cout << *i << " ";
+
+        cout << *i << ",";
     }
     cout << endl;
 
