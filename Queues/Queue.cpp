@@ -1,5 +1,7 @@
 
 #include "Queue.h"
+#include "../Stacks/Stack.h"
+
 
 Node::Node() : data(-1), next(nullptr) {}
 
