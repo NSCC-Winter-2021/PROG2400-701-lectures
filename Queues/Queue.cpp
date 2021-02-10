@@ -1,6 +1,6 @@
 
 #include "Queue.h"
-#include "../Stacks/Stack.h"
+#include "../Stacks/MazeStack.h"
 
 
 Node::Node() : data(-1), next(nullptr) {}

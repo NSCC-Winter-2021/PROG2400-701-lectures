@@ -1,17 +1,17 @@
 #include <iostream>
-#include "Stack.h"
+#include "MazeStack.h"
 
 using namespace std;
 
 int main() {
 
-    Stack stack;
+    MazeStack stack;
 
-    stack.Push(1);
-    stack.Push(2);
-    stack.Push(3);
-    stack.Push(4);
-    stack.Push(5);
+    stack.Push({1, 1});
+    stack.Push({2, 1});
+    stack.Push({3, 1});
+    stack.Push({4, 1});
+    stack.Push({5, 1});
 
     // Test 1
     cout << "Test 1" << endl;
@@ -27,7 +27,16 @@ int main() {
     cout << "Test 3" << endl;
     cout << "------" << endl;
     cout << stack.Pop() << endl;
+    cout << "------" << endl;
     cout << stack << endl;
+
+    // ----
+
+    Maze maze;
+
+    maze.ReadTextFile(filenameIn);
+    maze.Solve();
+    maze.WriteTextFile(filenameOut);
 
     return 0;
 }

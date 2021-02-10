@@ -2,20 +2,20 @@
 // Created by nscc on 2/5/2021.
 //
 
-#include "Stack.h"
+#include "MazeStack.h"
 
-Node::Node() : data(-1), next(nullptr), prev(nullptr) {}
+Node::Node() : next(nullptr), prev(nullptr) {}
 
-Stack::Stack() : first(nullptr), last(nullptr) {}
-Stack::~Stack() {
+MazeStack::MazeStack() : first(nullptr), last(nullptr) {}
+MazeStack::~MazeStack() {
     while (first != nullptr) {
         Pop();
     }
 }
 
-void Stack::Push(int data) {
+void MazeStack::Push(MazePosition pos) {
     Node* node = new Node();
-    node->data = data;
+    node->pos = pos;
     node->prev = last;
 
     if (first == nullptr) {
@@ -29,14 +29,14 @@ void Stack::Push(int data) {
     last = node;
 }
 
-int Stack::Peek() {
+MazePosition MazeStack::Peek() {
     if (last != nullptr) {
-        return last->data;
+        return last->pos;
     }
-    return -1;
+    return MazePosition();
 }
 
-int Stack::Pop() {
+MazePosition MazeStack::Pop() {
     if (last != nullptr) {
 
         Node* node = last;
@@ -52,20 +52,20 @@ int Stack::Pop() {
         // make 2nd last new last
         last = node->prev;
 
-        int data = node->data;
+        MazePosition pos = node->pos;
 
         delete node;
         // return data from old last
-        return data;
+        return pos;
     }
-    return -1;
+    return MazePosition();
 }
 
-std::ostream& operator<<(std::ostream& output, Stack& stack) {
+std::ostream& operator<<(std::ostream& output, MazeStack& stack) {
     Node* node = stack.last;
 
     while (node != nullptr) {
-        output << node->data << " ";
+        output << node->pos << std::endl;
         node = node->prev;
     }
     return output;
