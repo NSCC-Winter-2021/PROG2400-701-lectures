@@ -11,13 +11,11 @@ bool isPalindrome(char *str) {
     char last = str[len-1];
 
     if (first == last) {
-        char *substr = new char[len-1];
+        char substr[len-1];
         strncpy(substr, &str[1], len-2);
         substr[len-2] = '\0';
 
-        bool retval = isPalindrome(substr);
-        delete [] substr;
-        return retval;
+        return isPalindrome(substr);;
     }
     return false;
 }
