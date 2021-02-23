@@ -3,21 +3,9 @@
 
 using namespace std;
 
-bool isPalindrome(char *str) {
-    int len = strlen(str);
+bool isPalindrome(char *str, int len) {
     if (len <= 1) return true;
-
-    char first = str[0];
-    char last = str[len-1];
-
-    if (first == last) {
-        char substr[len-1];
-        strncpy(substr, &str[1], len-2);
-        substr[len-2] = '\0';
-
-        return isPalindrome(substr);;
-    }
-    return false;
+    return (str[0] == str[len-1]) && isPalindrome(&str[1], len-2);
 }
 
 int main() {
@@ -27,7 +15,9 @@ int main() {
     cout << "Enter a word: ";
     cin >> buffer;
 
-    if (isPalindrome(buffer)) {
+    int len = strlen(buffer);
+
+    if (isPalindrome(buffer, len)) {
         cout << buffer << " IS a palindrome!" << endl;
     } else {
         cout << buffer << " IS NOT a palindrome!" << endl;
